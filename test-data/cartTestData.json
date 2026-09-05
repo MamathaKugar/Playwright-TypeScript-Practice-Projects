@@ -1,0 +1,24 @@
+{
+  "firstProduct": {
+    "name": "Blue Top",
+    "price": 500,
+    "quantity": 1
+  },
+  "secondProduct": {
+    "name": "Men Tshirt",
+    "price": 400,
+    "quantity": 1
+  },
+  "increasedQuantity": {
+    "name": "Blue Top",
+    "price": 500,
+    "initialQuantity": 1,
+    "expectedQuantity": 4
+  },
+  "decreasedQuantity": {
+    "name": "Blue Top",
+    "price": 500,
+    "initialQuantity": 2,
+    "expectedQuantity": 1
+  }
+}

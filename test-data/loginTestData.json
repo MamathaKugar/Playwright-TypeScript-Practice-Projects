@@ -1,0 +1,32 @@
+{
+  "login": {
+    "email": "mamatha20@gmail.com",
+    "password": "Password@123"
+  },
+  "signup": {
+    "name": "Mamatha",
+    "email": "mamatha20@gmail.com"
+  },
+  "invalidlogin": {
+    "email": "mamatha2@gmail.com",
+    "password": "Password@23"
+  },
+
+
+  "RegisterData": {
+    "password": "Password@123",
+    "day": "10",
+    "month": "May",
+    "year": "1995",
+    "firstName": "Mamatha",
+    "lastName": "Test",
+    "company": "Test Company",
+    "address": "123 Main Street",
+    "address2": "Apartment 101",
+    "country": "India",
+    "state": "Karnataka",
+    "city": "Bangalore",
+    "zipcode": "560001",
+    "mobileNumber": "9876543210"
+  }
+}

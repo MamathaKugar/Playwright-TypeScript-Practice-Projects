@@ -1,0 +1,5 @@
+{
+    "filePath1": "C:/Automation/Playwright/Files/Doc1.pdf",
+    "filePath2": "C:/Automation/Playwright/Files/Doc2.pdf",
+    "expectedText": "Single file selected: Doc2.pdf, Size: 206172 bytes, Type: application/pdf"
+}
