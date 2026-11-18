@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { AlertsPage } from '../pages/alertsPage';
 import { ProjectUtils } from '../utils/projectUtils';
-import urls from '../test-data/urls.json'
+import urls from '../test-data/urls.json';
 
-test.describe('Handling Alerts', async () => {
+test.describe('Handling Alerts', () => {
 
     let alertsPage: AlertsPage;
     let projectUtils: ProjectUtils;
@@ -34,10 +34,10 @@ test.describe('Handling Alerts', async () => {
     });
 
     test('Test_004_Prompt Alert with Valid Name @smoke', async () => {
-        const actualmessage = await alertsPage.promtAlert();
+        const actualmessage = await alertsPage.acceptPromptAlert('Mamatha');
         expect.soft(actualmessage.dialogmsg).toBe('Please enter your name:');
         expect(actualmessage.message).toBe('Hello Mamatha! How are you today?');
     });
 
 });
-    
+    

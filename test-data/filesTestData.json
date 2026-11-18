@@ -1,5 +1,11 @@
 {
-    "filePath1": "C:/Automation/Playwright/Files/Doc1.pdf",
-    "filePath2": "C:/Automation/Playwright/Files/Doc2.pdf",
-    "expectedText": "Single file selected: Doc2.pdf, Size: 206172 bytes, Type: application/pdf"
+    "filePath1": "Files/Doc1.pdf",
+    "filePath2": "Files/Doc2.pdf",
+    "expectedSingleText": "Single file selected: Doc1.pdf, Size: 206172 bytes, Type: application/pdf",
+    "expectedMultipleText": [
+        "Multiple files selected:",
+        "Doc1.pdf",
+        "Doc2.pdf"
+    ],
+    "downloadText": "Test document"
 }

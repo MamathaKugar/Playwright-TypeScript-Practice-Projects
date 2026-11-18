@@ -1,19 +1,19 @@
 import { test, expect } from '@playwright/test'; 
-import { iFrame } from '../pages/iframePage';
+import { IframePage } from '../pages/iframePage';
 import { ProjectUtils } from '../utils/projectUtils';
 import urls from '../test-data/urls.json'
 
 import iframeTestData from '../test-data/iframeTestData.json'
 
-test.describe('iframes', async () => {
+test.describe('iframes', () => {
 
-    let frame: iFrame;
+    let frame: IframePage;
     let projectUtils: ProjectUtils;
-    let Data = iframeTestData;
+    const Data = iframeTestData;
 
     test.beforeEach( async ({page}) => {
         let iframeTest =urls.iframeTest;
-        frame = new iFrame(page);
+        frame = new IframePage(page);
         projectUtils = new ProjectUtils(page);
         await projectUtils.open(iframeTest.url);
                 
@@ -29,4 +29,4 @@ test.describe('iframes', async () => {
         expect(actualmessage).toBe(Data.expectedMessage);        
     });
 
-});
+});

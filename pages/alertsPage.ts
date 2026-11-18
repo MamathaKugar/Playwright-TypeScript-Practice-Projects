@@ -1,4 +1,4 @@
-import { Page, Locator, expect} from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 
 export class AlertsPage {
 
@@ -59,12 +59,12 @@ export class AlertsPage {
     }
     }
 
-    async promtAlert():Promise<{ dialogmsg: string; message: string }> {
+    async acceptPromptAlert(name: string): Promise<{ dialogmsg: string; message: string }> {
         await this.alertsHeading.scrollIntoViewIfNeeded();
         let dialogmsg = '';
         this.page.once('dialog', async dialog => {
             dialogmsg = dialog.message();
-        await dialog.accept('Mamatha');
+        await dialog.accept(name);
     })
     await this.promptbtn.click();
     const message: string = await this.message.innerText();

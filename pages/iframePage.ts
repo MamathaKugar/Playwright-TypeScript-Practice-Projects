@@ -1,16 +1,16 @@
-import { expect, FrameLocator, Locator, Page } from "@playwright/test";
+import { FrameLocator, Locator, Page } from "@playwright/test";
 
-export class iFrame{
+export class IframePage {
 
     private readonly page: Page;
-    private readonly Frame: FrameLocator;
+    private readonly frame: FrameLocator;
     private readonly nestedFrame: FrameLocator;
     private readonly iFrameTitle: Locator;
     private readonly nestedFrameTitle: Locator;
 
     constructor(page: Page){
         this.page = page;
-        this.Frame = page.frameLocator('#practiceFrame');
+        this.frame = page.frameLocator('#practiceFrame');
         this.iFrameTitle = page.locator('#iframeCardTitle');
         this.nestedFrameTitle = page.locator('#nestedFramesFrame');
         this.nestedFrame = page.frameLocator('#nestedFramesFrame');
@@ -19,7 +19,7 @@ export class iFrame{
 
     async fillIframeForm(name: string, message: string, priority: string): Promise<string> {
         await this.iFrameTitle.scrollIntoViewIfNeeded();
-        const frame = this.Frame;
+        const frame = this.frame;
         await frame.locator('#iframeName').fill(name);
         await frame.locator('#iframeMessage').fill(message);
         await frame.locator('#iframePriority').selectOption(priority);
@@ -43,4 +43,4 @@ export class iFrame{
 
     }
 
-}
+}

@@ -20,12 +20,14 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  /* Locally, cap parallel browsers so the machine isn't overloaded (the default is half your CPU cores). */
+  workers: process.env.CI ? 1 : 4,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    headless: false,
+    /* Headed locally, headless on CI (the GitHub runner has no display). */
+    headless: !!process.env.CI,
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'https://www.automationexercise.com/',
     // viewport: {width: 2100,height: 1160,}

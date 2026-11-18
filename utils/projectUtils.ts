@@ -1,95 +1,39 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 
+/** Generic helpers shared by all tests. Page-specific actions and checks live in the page objects. */
 export class ProjectUtils {
 
     readonly page: Page;
-    readonly cartTable: Locator;
-    readonly cartProducts: Locator;
-    readonly cartProductName: Locator;
-    readonly cartProductPrice: Locator;
-    readonly cartProductQuantity: Locator;
-    readonly cartProductTotal: Locator;
-    readonly productViewLinks: Locator;
-    readonly products: Locator;
-    readonly productPageHeading: Locator;
 
     constructor(page: Page) {
-
         this.page = page;
-        this.cartTable = page.locator('#cart_info_table');
-        this.cartProducts = page.locator('#cart_info_table tbody tr');
-        this.cartProductName = page.locator('#cart_info_table tbody tr .cart_description h4 a');
-        this.cartProductPrice = page.locator('#cart_info_table tbody tr .cart_price p');
-        this.cartProductQuantity = page.locator('#cart_info_table tbody tr .cart_quantity button');
-        this.cartProductTotal = page.locator('#cart_info_table tbody tr .cart_total_price');
-        this.productViewLinks = page.getByText('View Product');
-        this.products = page.locator('.product-image-wrapper');
-        this.productPageHeading = page.getByText('All Products');
     }
 
-    async open(url: string) {
-        await this.page.goto(url);
+    /**
+     * Opens a URL and waits only for the HTML to be ready (DOMContentLoaded).
+     * The default 'load' also waits for every ad, image and tracker on the page,
+     * which on testautomationpractice.blogspot.com can take longer than the 30s test timeout.
+     * Playwright auto-waits for each element before using it, so nothing more is needed.
+     */
+    async open(url: string): Promise<void> {
+        await this.page.goto(url, { waitUntil: 'domcontentloaded' });
     }
 
-    async refreshPage() {
+    async refreshPage(): Promise<void> {
         await this.page.reload();
     }
 
-    async getPageTitle() {
+    async getPageTitle(): Promise<string> {
         return await this.page.title();
     }
 
-    async verifyProductsPage() {
-        await expect(this.productPageHeading).toBeVisible();
+    /** Formats a price the way Automation Exercise shows it, e.g. 500 -> "Rs. 500". */
+    static formatPrice(amount: number): string {
+        return `Rs. ${amount}`;
     }
 
-    async verifyProductsAreAvailable() {
-        const productCount = await this.products.count();
-        expect(productCount,'At least one product should be available').toBeGreaterThan(0);
+    /** Returns a unique email address so sign-up tests can run more than once. */
+    static uniqueEmail(prefix = 'testuser'): string {
+        return `${prefix}+${Date.now()}@example.com`;
     }
-
-    async verifyProductDetailPageAvailable() {
-        await expect(this.productViewLinks).toBeVisible();
-    }
-
-    async verifyCartPage() {
-        await expect(this.cartTable).toBeVisible();
-    }
-
-    async verifyProductAdded() {
-        await expect(this.cartProducts.first()).toBeVisible();
-    }
-
-    async getCartProductTotal(index: number){
-        return (await this.cartProductTotal.nth(index).innerText());
-    }
-
-    async getCartProductQuantity(index: number) {
-        return (await this.cartProductQuantity.nth(index).innerText());
-    }
-
-    async verifyProductDetails(index: number) {
-        const actualName =await this.cartProductName.nth(index).innerText();
-        const actualPrice =await this.cartProductPrice.nth(index).innerText();
-        const actualQuantity =await this.cartProductQuantity.nth(index).innerText();
-        const actualTotal = await this.cartProductTotal.nth(index).innerText();
-        return {
-        actualName,
-        actualPrice,
-        actualQuantity,
-        actualTotal
-        }    
-    }
-
-    async verifyQuantityRemainsUnchanged(index: number,initialQuantity: number) {
-        const actualQuantity = await this.getCartProductQuantity(index);
-        expect.soft(actualQuantity).toBe(initialQuantity);
-    }
-
-    async verifyProductTotal(index: number,expectedPrice: number, initialQuantity: number) {
-        const expectedTotal = expectedPrice * initialQuantity;
-        const actualTotal = await this.getCartProductTotal(index);
-        expect(actualTotal).toBe(`Rs. ${expectedTotal}`);
-    }
-
 }

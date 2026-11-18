@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { AlertsPage } from '../pages/alertsPage';
 import { ProjectUtils } from '../utils/projectUtils';
-import urls from '../test-data/urls.json'
+import urls from '../test-data/urls.json';
 
 
 test.use({
@@ -10,24 +10,25 @@ test.use({
     trace: 'on'
 });
 
-test.describe('screenshot and video', async () => {
+test.describe('Screenshot and video', () => {
 
     let alertsPage: AlertsPage;
     let projectUtils: ProjectUtils;
-    
-    test.beforeEach( async ({page}) => {
-        let Data =urls.PlaywrightPractice;
+
+    test.beforeEach(async ({ page }) => {
         alertsPage = new AlertsPage(page);
         projectUtils = new ProjectUtils(page);
-        await projectUtils.open(Data.url);
-            
+        await projectUtils.open(urls.PlaywrightPractice.url);
     });
-    test('capture screenshot and video @regression', async ({page}) => {
+
+    test('Capture screenshot and video @regression', async ({ page }, testInfo) => {
         const actualmessage = await alertsPage.dismissConfirmationAlert();
         expect.soft(actualmessage.dialogmsg).toBe('Press a button!');
         expect(actualmessage.message).toBe('You pressed Cancel!');
-        await page.screenshot({path: './test-results/alert.png'});  
+        // Saved in this test's output folder and attached to the HTML report
+        const screenshotPath = testInfo.outputPath('alert.png');
+        await page.screenshot({ path: screenshotPath });
+        await testInfo.attach('alert', { path: screenshotPath, contentType: 'image/png' });
     });
 
 });
-    

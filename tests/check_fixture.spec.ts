@@ -1,18 +1,15 @@
 import { tavantFixture as test, expect } from '../fixtures/tavantFixture';
 
-test.describe('Handling Alerts', async () => {
+test.describe('Custom fixture check', () => {
 
-    test(' accept confirmation Alerts', async ({ fixturePage: Page }) => {
-
-    await Page.getByRole('heading', {name: 'Alerts & Popups'}).scrollIntoViewIfNeeded();
-    Page.once('dialog', async dialog => {
-      expect(dialog.message()).toBe('Press a button!');
-      await dialog.accept();
-
+    test('Accept confirmation alert using fixturePage @regression', async ({ fixturePage: page }) => {
+        await page.getByRole('heading', { name: 'Alerts & Popups' }).scrollIntoViewIfNeeded();
+        page.once('dialog', async dialog => {
+            expect(dialog.message()).toBe('Press a button!');
+            await dialog.accept();
+        });
+        await page.locator('#confirmBtn').click();
+        await expect(page.locator('#demo')).toHaveText('You pressed OK!');
     });
-      await Page.locator('#confirmBtn').click();
-      expect(Page.locator('#demo')).toHaveText('You pressed OK!');
-  });
-
 
 });

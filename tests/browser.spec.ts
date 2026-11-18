@@ -1,14 +1,10 @@
-import {test, expect, Page} from '@playwright/test';
-import { chromium } from '@playwright/test';
-import { on } from 'node:cluster';
+import { test, expect } from '@playwright/test';
 
-test('browser', async ({page}) => {
-
-    const browser = await chromium.launch();
+// Shows the Browser -> BrowserContext -> Page hierarchy that the built-in `page` fixture normally creates for you
+test('Create a context and page from the browser fixture @regression', async ({ browser }) => {
     const context = await browser.newContext();
-    const Page = await context.newPage();
+    const page = await context.newPage();
     await page.goto('https://playwright.dev/');
-    await browser.close();  
+    await expect(page).toHaveTitle(/Playwright/);
+    await context.close();
 });
-
-

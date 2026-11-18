@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 
 export class LoginPage {
 
@@ -11,48 +11,44 @@ export class LoginPage {
     readonly signupEmailAddress: Locator;
     readonly signupbtn: Locator;
     readonly emailAlreadyExistMsg: Locator;
-    readonly logoutbtm: Locator;
+    readonly loggedInAs: Locator;
 
-    constructor(page:Page){
-        
-        this.page =page;
-        this.loginEmailAddress = page.getByRole('textbox', { name: 'Email Address'});
-        this.loginPassword = page.getByRole('button', { name: 'Signup'});
-        this.loginbtn = page.getByRole('textbox', {name: 'Password'});
+    constructor(page: Page) {
+
+        this.page = page;
+        this.loginEmailAddress = page.locator('[data-qa="login-email"]');
+        this.loginPassword = page.locator('[data-qa="login-password"]');
+        this.loginbtn = page.locator('[data-qa="login-button"]');
         this.invalidLoginErrormsg = page.getByText('Your email or password is incorrect!');
-        this.signupName = page.getByRole('textbox', { name: 'Name'});
-        this.signupEmailAddress = page.getByRole('textbox', { name: 'Email Address'});
-        this.signupbtn = page.getByRole('button', { name: 'Signup'});
+        this.signupName = page.locator('[data-qa="signup-name"]');
+        this.signupEmailAddress = page.locator('[data-qa="signup-email"]');
+        this.signupbtn = page.locator('[data-qa="signup-button"]');
         this.emailAlreadyExistMsg = page.getByText('Email Address already exist!');
-        this.logoutbtm = page.getByRole('link', {name: 'Logout'});
-
+        this.loggedInAs = page.locator('a').filter({ hasText: 'Logged in as' });
     }
 
-    async loginasExistingUser(index: number,email: string, password: string): Promise<void> {       
-        await this.loginEmailAddress.nth(index).fill(email);
+    async loginasExistingUser(email: string, password: string): Promise<void> {
+        await this.loginEmailAddress.fill(email);
         await this.loginPassword.fill(password);
-        await this.loginbtn.click();       
+        await this.loginbtn.click();
     }
 
-    async loggedinMessage():Promise<string>{
-        const message = await this.page.locator('a:has(i.fa-user) b').innerText();
-        return message;
+    /** Returns the full header text, e.g. "Logged in as Mamatha". */
+    async loggedinMessage(): Promise<string> {
+        return (await this.loggedInAs.innerText()).trim();
     }
 
-    async newUserSignup(index: number, name: string, email: string): Promise<void>{     
+    async newUserSignup(name: string, email: string): Promise<void> {
         await this.signupName.fill(name);
-        await this.signupEmailAddress.nth(index).fill(email);
+        await this.signupEmailAddress.fill(email);
         await this.signupbtn.click();
     }
 
-    async getInvalidLoginErrorMsg() {
+    async getInvalidLoginErrorMsg(): Promise<string> {
         return (await this.invalidLoginErrormsg.innerText()).trim();
     }
 
-    async getEmailAlreadyExistMS(){
+    async getEmailAlreadyExistMsg(): Promise<string> {
         return (await this.emailAlreadyExistMsg.innerText()).trim();
     }
 }
-
-
-

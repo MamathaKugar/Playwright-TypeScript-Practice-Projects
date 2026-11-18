@@ -1,30 +1,33 @@
-import{expect, Locator, Page} from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 
-export class HomePage  {
+export class HomePage {
 
     readonly homeLink: Locator;
     readonly productsLink: Locator;
     readonly cartLink: Locator;
     readonly signuporLoginLink: Locator;
-    readonly logoutbtn: Locator;
-    readonly deleteAccount: Locator;
+    readonly logoutLink: Locator;
+    readonly deleteAccountLink: Locator;
     readonly loggedInAs: Locator;
-    readonly accountdeleteddmsg: Locator;
-     
-    
+    readonly accountDeletedMsg: Locator;
+    readonly continueButton: Locator;
+
     constructor(page: Page) {
 
-        this.homeLink = page.getByRole('link', { name: 'Home' });
-        this.productsLink = page.getByRole('link', { name: 'Products' });
-        this.cartLink = page.getByRole('link', { name: 'Cart' });
-        this.signuporLoginLink = page.getByRole('link', { name: 'Signup / Login' });
-        this.logoutbtn = page.getByRole('link',{name: 'Logout'})
-        this.deleteAccount = page.getByRole('link', { name: 'Delete Account' });
-        this.loggedInAs = page.locator('a').filter({ hasText: 'Logged in as' });
-        this.accountdeleteddmsg = page.getByText('Account Deleted!');
-      
+        // Scoped to the header menu so links such as "View Cart" in the cart pop-up don't also match
+        const menu = page.locator('.shop-menu');
+        this.homeLink = menu.getByRole('link', { name: 'Home' });
+        this.productsLink = menu.getByRole('link', { name: 'Products' });
+        this.cartLink = menu.getByRole('link', { name: 'Cart' });
+        this.signuporLoginLink = menu.getByRole('link', { name: 'Signup / Login' });
+        this.logoutLink = menu.getByRole('link', { name: 'Logout' });
+        this.deleteAccountLink = menu.getByRole('link', { name: 'Delete Account' });
+        this.loggedInAs = menu.locator('a').filter({ hasText: 'Logged in as' });
+        this.accountDeletedMsg = page.locator('[data-qa="account-deleted"]');
+        this.continueButton = page.locator('[data-qa="continue-button"]');
     }
-     async getHomeLink(): Promise<void> {
+
+    async openHomePage(): Promise<void> {
         await this.homeLink.click();
     }
 
@@ -33,27 +36,24 @@ export class HomePage  {
     }
 
     async openCartPage(): Promise<void> {
-        await this.cartLink.click();    
+        await this.cartLink.click();
     }
-    
-    async opensignuporLoginpage(): Promise<void> {
-        await this.signuporLoginLink.click();
-    }
-   
-    async navigateToSignuporLogin(): Promise<void> {
+
+    async openSignupLoginPage(): Promise<void> {
         await this.signuporLoginLink.click();
     }
 
     async logout(): Promise<void> {
-        await this.logoutbtn.click();      
+        await this.logoutLink.click();
     }
 
-    async DeleteAccount(): Promise<string> {
-        await this.deleteAccount.click();
-        return (await this.accountdeleteddmsg.innerText()).trim();
+    /** Clicks "Continue" on the Account Created / Account Deleted pages. */
+    async clickContinue(): Promise<void> {
+        await this.continueButton.click();
     }
 
-    async navigateToProducts(): Promise<void> {
-        await this.productsLink.click();
+    async deleteAccount(): Promise<string> {
+        await this.deleteAccountLink.click();
+        return (await this.accountDeletedMsg.innerText()).trim();
     }
 }

@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import loginTestData from '../test-data/loginTestData.json'
 
 export class SignupInfo {
@@ -44,7 +44,7 @@ export class SignupInfo {
         this.zipcodeInput = page.locator('#zipcode');
         this.mobileNumInput = page.getByRole('textbox', {name: 'Mobile Number *'});
         this.createAccountbtn = page.getByRole('button', {name: 'Create Account'});
-        this.accountCreatedmsg = page.getByText('Account Created!');
+        this.accountCreatedmsg = page.locator('[data-qa="account-created"]');
         
     }
 
