@@ -3,8 +3,6 @@ import { AlertsPage } from '../pages/alertsPage';
 import { ProjectUtils } from '../utils/projectUtils';
 import urls from '../test-data/urls.json'
 
-
-
 test.describe('Handling Alerts', async () => {
 
     let alertsPage: AlertsPage;
@@ -35,7 +33,7 @@ test.describe('Handling Alerts', async () => {
         expect(actualmessage.message).toBe('You pressed Cancel!');
     });
 
-    test.only('Test_004_Prompt Alert with Valid Name @smoke', async () => {
+    test('Test_004_Prompt Alert with Valid Name @smoke', async () => {
         const actualmessage = await alertsPage.promtAlert();
         expect.soft(actualmessage.dialogmsg).toBe('Please enter your name:');
         expect(actualmessage.message).toBe('Hello Mamatha! How are you today?');

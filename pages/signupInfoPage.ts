@@ -37,11 +37,11 @@ export class SignupInfo {
         this.lastNameInput = page.getByRole('textbox', {name: 'Last name *'});
         this.CompanyInput = page.locator('#company');
         this.addressInput = page.getByRole('textbox', {name: 'Address *'});
-        this.address2Input = page.getByRole('textbox', {name: 'Address2 *'});
+        this.address2Input = page.locator('#address2');
         this.countryDropdown = page.getByRole('combobox', {name: 'Country *'});
         this.stateInput = page.getByRole('textbox', {name: 'State *'});
         this.cityInput = page.getByRole('textbox', {name: 'City *'});
-        this.zipcodeInput = page.getByRole('textbox', {name: 'Zipcode *'});
+        this.zipcodeInput = page.locator('#zipcode');
         this.mobileNumInput = page.getByRole('textbox', {name: 'Mobile Number *'});
         this.createAccountbtn = page.getByRole('button', {name: 'Create Account'});
         this.accountCreatedmsg = page.getByText('Account Created!');

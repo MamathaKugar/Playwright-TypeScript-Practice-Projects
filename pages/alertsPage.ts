@@ -29,7 +29,6 @@ export class AlertsPage {
     return message;
 }
 
-
     async acceptConfirmationAlert(): Promise<{ dialogmsg: string; message: string }> {
     await this.alertsHeading.scrollIntoViewIfNeeded();
     let dialogmsg = '';
@@ -67,6 +66,7 @@ export class AlertsPage {
             dialogmsg = dialog.message();
         await dialog.accept('Mamatha');
     })
+    await this.promptbtn.click();
     const message: string = await this.message.innerText();
     return {
         dialogmsg,

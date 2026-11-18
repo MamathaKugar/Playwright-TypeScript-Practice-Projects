@@ -23,7 +23,7 @@ test.describe('Handling New Tab and Windows', () => {
         console.log(await newPage.title());
         await page.bringToFront();
         await expect(page).toHaveURL(Data.url);
-    });
+    })
 
     test('TC_002_Open Popup Window @smoke', async ({ page }) => {
         const popup = await windowsPage.openPopup();

@@ -1,10 +1,7 @@
 import { test as base, expect, Page } from '@playwright/test';
 
 // Tavant Custom Fixture Types
-type TavantFixtures = {
-  fixturePage: Page;
-};
-
+type TavantFixtures = {fixturePage: Page;};
 
 export const tavantFixture = base.extend<TavantFixtures>({
   fixturePage: async ({ page }, use) => {

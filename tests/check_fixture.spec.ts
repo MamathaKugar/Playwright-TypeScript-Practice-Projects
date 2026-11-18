@@ -2,7 +2,7 @@ import { tavantFixture as test, expect } from '../fixtures/tavantFixture';
 
 test.describe('Handling Alerts', async () => {
 
-    test.only(' accept confirmation Alerts', async ({ fixturePage: Page }) => {
+    test(' accept confirmation Alerts', async ({ fixturePage: Page }) => {
 
     await Page.getByRole('heading', {name: 'Alerts & Popups'}).scrollIntoViewIfNeeded();
     Page.once('dialog', async dialog => {
